@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -26,18 +27,24 @@ public class Move : MonoBehaviour
             _key1 = true;
         else if (Input.GetKeyDown(KeyCode.Alpha2))
             _key2 = true;
-
-        _key1Info.color = _key1 ? _pressColor : _defaultColor;
-        _key2Info.color = _key2 ? _pressColor : _defaultColor;
     }
+
 
     private void FixedUpdate()
     {
-        if (_key1)
-            _rb.MovePosition(_rb.position + Vector2.right);
-        else if (_key2)
-            _rb.position += Vector2.right;
+        _key1Info.color = _key2Info.color = _defaultColor;
 
+        if (_key1)
+        {
+            _rb.MovePosition(_rb.position + Vector2.right);
+            _key1Info.color = _pressColor;
+        }
+        else if (_key2)
+        {
+            _rb.position += Vector2.right; // this doesn't stop visual interpolation
+            _key2Info.color = _pressColor;
+        }
+            
         _key1 = _key2 = false;
     }
 }
